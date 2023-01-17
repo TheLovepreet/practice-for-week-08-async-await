@@ -1,38 +1,36 @@
 function stretch() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log("done stretching");
+      console.log("Done stretching");
       resolve();
     }, 1000);
   });
 }
 
-function runOnTreadmill() {
-  return new Promise((resolve, reject) => {
+async function runOnTreadmill() {
+  const stretchRes = await stretch();
     setTimeout(() => {
-      console.log("done running on treadmill");
-      resolve();
+      console.log("done runnning");
+      return stretchRes;
     }, 500);
-  });
 }
 
-function liftWeights() {
-  return new Promise((resolve, reject) => {
+async function liftWeights() {
+  const runRes = await runOnTreadmill();
     setTimeout(() => {
       console.log("done lifting weights");
-      resolve();
+      console.log("done workout");
+      return runRes;
     }, 2000);
-  });
+
 }
 
 // refactor this function to handle Promises using async/await instead of
   // .then and .catch
-function workout() {
-  stretch()
-    .then(runOnTreadmill)
-    .then(liftWeights)
-    .then(() => console.log("done working out"))
-    .catch((err) => console.log(err));
+async function workout() {
+  const final = await liftWeights();
+  console.log(final);
+  
 }
 
 /* ============================ TEST YOUR CODE ============================
